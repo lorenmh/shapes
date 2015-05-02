@@ -1,4 +1,4 @@
-v = View();
+v = View({ target: document.getElementById('target') });
 
 // var colors = [
 //   '#a63754',
@@ -57,7 +57,7 @@ function shapeArray(p) {
         animate: true,
         animDur: function() { return 2000 + Math.random() * 2000 ; },
         rotation: function() { return 360 - Math.random() * 720 ; },
-        fillOpacity: 0.5,
+        fillOpacity: 0.0,
         strokeOpacity: 1,
         drawBoundingCircle: false,
         rand: 40
