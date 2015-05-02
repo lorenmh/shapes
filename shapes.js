@@ -168,7 +168,7 @@ function makeCyclicEdges(num) {
 function View(params) {
   params = params || {} ;
 
-  var view, bounds, d3View;
+  var view, bounds, d3Svg, d3View, d3Clip;
 
   view = {};
 
@@ -176,12 +176,40 @@ function View(params) {
 
   view.bounds = view.target.getBoundingClientRect();
   
-  d3View = d3.select(view.target).append('svg')
+  d3Svg = d3.select(view.target).append('svg')
       .attr({
         width: view.bounds.width,
         height: view.bounds.height
       })
   ;
+  
+  d3View = d3Svg.append('g').attr('clip-path', 'url(#clip)')
+  ;
+  
+  // d3View.append('rect').attr({ x: 0, y: 0, width: view.bounds.width, height: view.bounds.height })
+  //     .style({ fill: 'rgba(255,255,255,.6)'})
+  
+  d3Clip = d3Svg.append('defs')
+      .append('clipPath')
+      .attr('id', 'clip')
+  ;
+
+  
+  var clipShape = Shape({
+    x: view.bounds.width / 2,
+    y: view.bounds.height / 2,
+    size: 6,
+    radius: (view.bounds.width / 2) * .9
+  })
+  console.log(clipShape)
+  
+  clipShape.setPositions();
+
+  d3Clip.append('path')
+    .attr({
+      transform: 'translate(' + clipShape.x + ', ' + clipShape.y + ')',
+      d: clipShape.d()
+    })
 
   view.drawShape = function $drawShape($params) {
     var shape, d3Shape, i;
@@ -244,7 +272,7 @@ function View(params) {
     
     d3Shape.append('path')
         .attr({
-          d: shape.d(shape.edges[i])
+          d: shape.d()
         })
         .style({
           fill: shape.color,
