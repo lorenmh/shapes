@@ -65,8 +65,22 @@ function Shape(params) {
   shape.size = params.size || 0 ;
   shape.edges = params.edges || makeCyclicEdges(params.size) ;
   
+  shape.d = function $d() {
+    var str, i;
+    
+    str = '';
 
-  shape.setPositions = function() {
+    for (i = 0; i < shape.edges.length - 1; i++) {
+      if (i === 0) { 
+        str += 'M' + shape.edges[i].v0.x + ' ' + shape.edges[i].v0.y;
+      }
+        str += ' L ' + shape.edges[i].v1.x + ' ' + shape.edges[i].v1.y;
+    }
+
+    return str;
+  };
+
+  shape.setPositions = function $setPositions() {
     // $v: vertex
     // $a: angle
     function initVertex( $v, $a ) {
