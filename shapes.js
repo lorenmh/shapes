@@ -1,5 +1,3 @@
-/* jshint esnext:true */
-
 function toRadians(angle) {
   return Math.PI * (angle / 180);
 }
@@ -73,7 +71,10 @@ function Shape(params) {
                         params.fillOpacity : 0.06 ;
   shape.strokeOpacity = params.strokeOpacity !== undefined ? 
                         params.strokeOpacity: 0.1 ;
-  
+  shape.animDur = params.animDur || 
+                  function() { return Math.random() * 6000 + 4000 } ;
+  shape.rotation =  params.rotation || 
+                    function() { return (15 - Math.random() * 30) } ;
   shape.d = function $d() {
     var str, i;
     
@@ -173,12 +174,12 @@ function View(params) {
 
   view.target = params.target || document.body;
 
-  bounds = view.target.getBoundingClientRect();
+  view.bounds = view.target.getBoundingClientRect();
   
   d3View = d3.select(view.target).append('svg')
       .attr({
-        width: bounds.width,
-        height: bounds.height
+        width: view.bounds.width,
+        height: view.bounds.height
       })
   ;
 
@@ -198,9 +199,9 @@ function View(params) {
     function rotate() {
       if (shape.animate) {
         d3Shape.transition()
-            .duration(Math.random() * 6000 + 4000)
+            .duration(shape.animDur())
             .attr({
-              transform: translateStr + ' rotate(' + (15 - Math.random() * 30) + ')'
+              transform: translateStr + ' rotate(' + shape.rotation() + ')'
             })
             .each('end', rotate)
         ;
