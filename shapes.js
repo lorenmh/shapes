@@ -67,6 +67,12 @@ function Shape(params) {
   shape.size = params.size || 0 ;
   shape.edges = params.edges || makeCyclicEdges(params.size) ;
   shape.color = params.color || '#000';
+  shape.animate = !!params.animate;
+  shape.drawBoundingCircle = !!params.drawBoundingCircle;
+  shape.fillOpacity = params.fillOpacity !== undefined ? 
+                        params.fillOpacity : 0.06 ;
+  shape.strokeOpacity = params.strokeOpacity !== undefined ? 
+                        params.strokeOpacity: 0.1 ;
   
   shape.d = function $d() {
     var str, i;
@@ -189,27 +195,19 @@ function View(params) {
         })
     ;
 
-    function rotateLeft() {
-      d3Shape.transition()
-          .duration(Math.random() * 600 + 400)
-          .attr({
-            transform: translateStr + ' rotate(' + (5 * Math.random() + 10) + ')'
-          })
-          .each('end', rotateRight)
-      ;
+    function rotate() {
+      if (shape.animate) {
+        d3Shape.transition()
+            .duration(Math.random() * 6000 + 4000)
+            .attr({
+              transform: translateStr + ' rotate(' + (15 - Math.random() * 30) + ')'
+            })
+            .each('end', rotate)
+        ;
+      }
     }
 
-    function rotateRight() {
-      d3Shape.transition()
-        .duration(Math.random() * 600 + 400)
-        .attr({
-          transform: translateStr + ' rotate(0)'
-        })
-        .each('end', rotateLeft)
-      ;
-    }
-
-    rotateLeft();
+    rotate();
 
     // for (i = 0; i < shape.edges.length; i++) {
     //   d3Shape.append('line')
@@ -227,6 +225,22 @@ function View(params) {
     // }
 
     // for (i = 0; i < shape.edges.length; i++) {
+    if (shape.drawBoundingCircle) {
+      d3Shape.append('circle')
+          .attr({
+            cx: 0,
+            cy: 0,
+            r: shape.radius
+          })
+          .style({
+            stroke: 'black',
+            'stroke-width': 1,
+            fill: 'transparent'
+          })
+      ;
+    }
+
+    
     d3Shape.append('path')
         .attr({
           d: shape.d(shape.edges[i])
@@ -234,8 +248,8 @@ function View(params) {
         .style({
           fill: shape.color,
           stroke: shape.color,
-          'fill-opacity': 0.06,
-          'stroke-opacity': 0.1
+          'fill-opacity': shape.fillOpacity,
+          'stroke-opacity': shape.strokeOpacity
         })
     ;
     //}
@@ -255,8 +269,8 @@ function View(params) {
     }
 
     a(primes);
-    params.x += 300;
-    a(s);
+    //params.x += 300;
+    //a(s);
     
 
     // for (i = 0; i < 10; i++) {
