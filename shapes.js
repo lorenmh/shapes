@@ -55,6 +55,8 @@ function Shape(params) {
   shape = {};
       
   shape.offset = params.offset || 0 ;
+  if (shape.offset === 'RANDOM') { shape.offset = Math.PI * 2 * Math.random(); }
+
   shape.radius = params.radius || 0 ;
   shape.rand = params.rand || 0 ;
   shape.repel = params.repel || 0 ;
@@ -176,14 +178,38 @@ function View(params) {
 
   view.drawShape = function $drawShape($params) {
     var shape, d3Shape, i;
-    
+   
+
     shape = Shape($params);
     shape.setPositions();
+    var translateStr = 'translate(' + shape.x + ', ' + shape.y + ')';
     d3Shape = d3View.append('g')
         .attr({
-          transform: 'translate(' + shape.x + ', ' + shape.y + ')'
+          transform: translateStr 
         })
     ;
+
+    function rotateLeft() {
+      d3Shape.transition()
+          .duration(Math.random() * 600 + 400)
+          .attr({
+            transform: translateStr + ' rotate(' + (5 * Math.random() + 10) + ')'
+          })
+          .each('end', rotateRight)
+      ;
+    }
+
+    function rotateRight() {
+      d3Shape.transition()
+        .duration(Math.random() * 600 + 400)
+        .attr({
+          transform: translateStr + ' rotate(0)'
+        })
+        .each('end', rotateLeft)
+      ;
+    }
+
+    rotateLeft();
 
     // for (i = 0; i < shape.edges.length; i++) {
     //   d3Shape.append('line')
@@ -208,7 +234,7 @@ function View(params) {
         .style({
           fill: shape.color,
           stroke: shape.color,
-          'fill-opacity': 0.03,
+          'fill-opacity': 0.06,
           'stroke-opacity': 0.1
         })
     ;
@@ -218,7 +244,7 @@ function View(params) {
   view.blah = function(params) {
     // var primes = [3,5,7,11,13,17,19,23,29];
     var primes = [3,6,9];
-    var s = [4, 6, 8, 10];
+    var s = [4, 6, 8];
 
     function a(z) {
     z.forEach(function(el, i) { 

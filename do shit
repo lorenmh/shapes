@@ -1,0 +1,29 @@
+v = View(); v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(255,100,100)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'black' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'black' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'white' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(12,64,123)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(12,64,123)' })
+undefined
+v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 50, color: 'rgb(12,64,123)' })
