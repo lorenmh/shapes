@@ -1,9 +1,55 @@
-<html><head></head><body>
-  <style> #target { width: 600; height: 600 } html, body { background-color: rgb(30,30,40); }</style>
+<!DOCTYPE html/>
+<html>
 
-<div id="target"></div>
+<head>
+</head>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script src="shapes.js"></script>
-<script src="test.js"></script>
-</body></html>
+<body>
+  <div id="logo">
+    <svg width="280" height="80">
+    
+    <defs>
+      <clipPath id="logo-text">
+        <text x="140"
+              y="40"
+              text-anchor="middle">
+          plutonium.io
+        </text>
+      </clipPath>
+    </defs>
+
+    <image  xlink:href="textbg.jpg"
+            x="0"
+            y="0"
+            width="378"
+            height="86"
+            clip-path="url(#logo-text)" >
+    </image>
+
+
+    </svg>
+  </div>
+  <style>
+    #logo text {
+      font-family: 'Roboto', sans-serif;
+      font-size: 50px;
+    }
+
+    #target {
+      width: 600;
+      height: 600; 
+    } 
+    
+    html, body {
+      background-color: rgb(30,30,40);
+    }
+  </style>
+
+  <div id="target"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="shapes.js"></script>
+  <script src="test.js"></script>
+</body>
+
+</html>

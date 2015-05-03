@@ -1,8 +1,13 @@
+/* jshint node:true */
 function toRadians(angle) {
+  'use strict';
+
   return Math.PI * (angle / 180);
 }
 
 function Vertex(params) {
+  'use strict';
+
   params = params || {} ;
   
   var vertex;
@@ -20,6 +25,8 @@ function Vertex(params) {
 }
 
 function Edge(params) {
+  'use strict';
+
   params = params || {};
 
   var edge;
@@ -36,45 +43,58 @@ function Edge(params) {
   return edge;
 }
 
-/* params.offset: offset angle, radians
- * params.radius: radius of the spheroid
- * params.repel: constant for repellent force
- * params.attract: constant for attractive force
- * params.rand: constant for threshold
- * params.x: x position of center
- * params.y: y position of center
- * params.size: number of edges / size
- * params.edges: an array of edges 
- */
 function Shape(params) {
+  'use strict';
+
   params = params || {} ;
+
   var shape, i, angle;
 
-  shape = {};
-      
-  shape.offset = params.offset || 0 ;
-  if (shape.offset === 'RANDOM') { shape.offset = Math.PI * 2 * Math.random(); }
+  var RANDOM_OFFSET, DEFAULT_COLOR, DEFAULT_FILL_OPACITY,
+      DEFAULT_STROKE_OPACITY, DEFAULT_ANIM_DUR_FN, DEFAULT_ROTATION_FN,
+      OFFSET_RANDOM_STRING
+  ;
 
+  shape = {};
+  
+  RANDOM_OFFSET = function $RANDOM_OFFSET() {
+    return Math.PI * 2 * Math.random();
+  };
+
+  DEFAULT_COLOR = '#000';
+  DEFAULT_FILL_OPACITY = 0.06;
+  DEFAULT_STROKE_OPACITY = 0.1;
+  DEFAULT_ANIM_DUR_FN = function $DEFAULT_ANIM_DUR_FN() {
+    return Math.random() * 6000 + 4000;
+  };
+  DEFAULT_ROTATION_FN = function $DEFAULT_ROTATION_FN() {
+    return (15 - Math.random() * 30);
+  };
+  OFFSET_RANDOM_STRING = 'RANDOM';
+
+  shape.offset = params.offset || 0 ;
   shape.radius = params.radius || 0 ;
   shape.rand = params.rand || 0 ;
   shape.repel = params.repel || 0 ;
   shape.attract = params.attract || 0 ;
-  shape.rand = params.rand || 0 ;
   shape.x = params.x || 0 ;
   shape.y = params.y || 0 ;
   shape.size = params.size || 0 ;
   shape.edges = params.edges || makeCyclicEdges(params.size) ;
-  shape.color = params.color || '#000';
+  shape.color = params.color || DEFAULT_COLOR; 
   shape.animate = !!params.animate;
   shape.drawBoundingCircle = !!params.drawBoundingCircle;
   shape.fillOpacity = params.fillOpacity !== undefined ? 
-                        params.fillOpacity : 0.06 ;
+                        params.fillOpacity : DEFAULT_FILL_OPACITY ;
   shape.strokeOpacity = params.strokeOpacity !== undefined ? 
-                        params.strokeOpacity: 0.1 ;
-  shape.animDur = params.animDur || 
-                  function() { return Math.random() * 6000 + 4000 } ;
-  shape.rotation =  params.rotation || 
-                    function() { return (15 - Math.random() * 30) } ;
+                        params.strokeOpacity: DEFAULT_STROKE_OPACITY ;
+  shape.animDur = params.animDurFn || DEFAULT_ANIM_DUR_FN ;
+  shape.rotation =  params.rotationFn || DEFAULT_ROTATION_FN ;
+  
+  if (shape.offset === OFFSET_RANDOM_STRING) {
+    shape.offset = Math.PI * 2 * Math.random();
+  }
+
   shape.d = function $d() {
     var str, i;
     
@@ -90,8 +110,9 @@ function Shape(params) {
     return str;
   };
 
-  function bezierValues(edge, i) {
-    var str, dist, angle, magnitude;
+  // Doesn't work well; think of refactoring
+  function bezierValues(edge) {
+    var dist, a0, a1, magnitude;
     
     dist = Math.sqrt( Math.pow(edge.v1.x - edge.v0.x, 2) +
                       Math.pow(edge.v1.y - edge.v0.y, 2)
@@ -111,13 +132,11 @@ function Shape(params) {
           edge.v1.x + ' ' + edge.v1.y
 
     ;
-
-
   }
 
   shape.dC = bezierValues ;
 
-  shape.setPositions = function $setPositions() {
+  shape.initialize = function $initialize() {
     // $v: vertex
     // $a: angle
     function initVertex( $v, $a ) {
@@ -127,15 +146,20 @@ function Shape(params) {
       $v.y = Math.cos($a) * ($rand + shape.radius);
     }
 
-    angle = (function* $angle() {
+    // converted from generator to curried fn
+    angle = (function $angle() {
       var i, multiplier;
       
       i = 0;
       multiplier = shape.edges.length ? 360 / shape.edges.length : 0;
       
-      while (i < shape.edges.length) {
-        yield (toRadians(i++ * multiplier) + shape.offset) % (2 * Math.PI);
-      }
+      return {
+        next: function() {
+          return {
+            value: (toRadians(i++ * multiplier) + shape.offset) % (2 * Math.PI)
+          };
+        }
+      };
     })();
 
     var odd = shape.edges.length % 2 === 1;
@@ -153,6 +177,7 @@ function Shape(params) {
 }
 
 function makeCyclicEdges(num) {
+  'use strict';
   num = num || 0;
 
   var i, v0, v1, vStart, edges;
@@ -166,6 +191,7 @@ function makeCyclicEdges(num) {
 }
 
 function View(params) {
+  'use strict';
   params = params || {} ;
 
   var view, bounds, d3Svg, d3View, d3Clip;
@@ -203,7 +229,7 @@ function View(params) {
   })
   console.log(clipShape)
   
-  clipShape.setPositions();
+  clipShape.initialize();
 
   d3Clip.append('path')
     .attr({
@@ -216,7 +242,7 @@ function View(params) {
    
 
     shape = Shape($params);
-    shape.setPositions();
+    shape.initialize();
     var translateStr = 'translate(' + shape.x + ', ' + shape.y + ')';
     d3Shape = d3View.append('g')
         .attr({
