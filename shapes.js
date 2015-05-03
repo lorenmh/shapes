@@ -186,36 +186,14 @@ function View(params) {
   d3View = d3Svg.append('g').attr('clip-path', 'url(#clip)')
   ;
   
-  // d3View.append('rect').attr({ x: 0, y: 0, width: view.bounds.width, height: view.bounds.height })
-  //     .style({ fill: 'rgba(255,255,255,.6)'})
+  d3View.append('rect').attr({ x: 0, y: 0, width: view.bounds.width, height: view.bounds.height })
+      .style({ fill: 'rgba(255,255,255,.6)'})
   
-  
-  var borderShape = Shape({
-    x: view.bounds.width / 2,
-    y: view.bounds.height / 2,
-    size: 6,
-    radius: ((view.bounds.width / 2) * 0.9) + 15
-  })
-  
-  borderShape.setPositions();
-  
-  d3Border = d3Svg.append('path')
-    .attr({
-      transform: 'translate(' + borderShape.x + ', ' + borderShape.y + ')',
-      d: borderShape.d()
-    })
-    .style({
-      fill: 'transparent',
-      stroke: 'rgb(80, 163, 162)',
-      'fill-opacity':0,
-      'stroke-opacity':1,
-      'stroke-width': 2
-    })
-  ;
   d3Clip = d3Svg.append('defs')
       .append('clipPath')
       .attr('id', 'clip')
   ;
+
   
   var clipShape = Shape({
     x: view.bounds.width / 2,
@@ -292,33 +270,17 @@ function View(params) {
     }
 
     
-    var d3Path = d3Shape.append('path')
+    d3Shape.append('path')
         .attr({
           d: shape.d()
         })
         .style({
           fill: shape.color,
           stroke: shape.color,
-          'fill-opacity': Math.random() > 0.90 ? 1 : shape.fillOpacity,
+          'fill-opacity': shape.fillOpacity,
           'stroke-opacity': shape.strokeOpacity
         })
     ;
-    
-    // function colorthis() {
-    //   if (shape.animate) {
-    //     d3Path
-    //     .transition()
-    //     .duration(shape.animDur())
-    //     .delay(shape.animDur())
-    //     .style({
-    //       'fill-opacity': Math.random() * 1
-    //     })
-    //     .each('end', colorthis)
-    //   }
-    // }
-    
-    // colorthis();
-    
     //}
   };
 

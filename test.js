@@ -57,8 +57,8 @@ function shapeArray(p) {
         animate: true,
         animDur: function() { return 2000 + Math.random() * 2000 ; },
         rotation: function() { return 360 - Math.random() * 720 ; },
-        fillOpacity: 0.0,
-        strokeOpacity: 1,
+        fillOpacity: 0.6,
+        strokeOpacity: 0.0,
         drawBoundingCircle: false,
         rand: 40
       })
