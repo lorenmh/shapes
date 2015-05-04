@@ -1,6 +1,8 @@
 <!DOCTYPE html/>
 <html>
 
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
 <head>
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500' rel='stylesheet' type='text/css'>
 </head>
@@ -20,7 +22,10 @@
 
     #pl-title svg {
       display: block;
+      position: relative;
       margin: auto;
+      left: 50%;
+      margin-left: -230px;
     }
 
     /*#pl-title {
@@ -32,6 +37,17 @@
       height: 600;
       display: block;
       margin: auto;
+      position: relative;
+      left: 50%;
+      margin-left: -300px;
+    }
+
+    .pl-hexagon svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -300px;
+      margin-top: -300px;
     }
 
     .pl-nav {
@@ -42,6 +58,7 @@
     #container {
       max-width: 800px;
       margin: auto;
+      padding: 10px;
     }
 
     #menu {
@@ -121,8 +138,49 @@
 
     .pl-blog-teaser h2 {
       font-weight: 300;
-      text-align: center;
       color: #F79E7F;
+    }
+
+    .location {
+      color: rgb(247, 158, 127);
+      border-bottom: solid 1px;
+      display: inline-block;
+    }
+
+    .pl-blog-item {
+      color: rgba(255,255,255,.9);
+    }
+
+    .pl-blog-item .title {
+      font-weight: 300;
+      color: rgb(247, 158, 127);
+    }
+
+    h1, h2, h3, h4, h5, strong {
+      font-weight: 400;
+      color: rgba(230,230,230,.9);
+      line-height: 100%;
+    }
+
+    a {
+      color: rgb(247, 158, 127);
+    }
+
+    em {
+      font-weight: 300;
+    }
+
+    pre {
+      padding: 20px;
+      background-color: rgba(0,0,0,.2);
+      overflow: auto;
+    }
+
+    #path404 {
+      font-size: 80px;
+      text-align: center;
+      color: rgb(226, 240, 165);
+      font-weight: 100;
     }
   </style>
 
@@ -132,7 +190,7 @@
     <div id="container">
       <pl-title></pl-title>
       <pl-nav></pl-nav>
-      {{ location }}
+      <div class="location">{{ location }}</div>
       <ui-view></ui-view>
     </div>
   </script>
@@ -194,7 +252,7 @@
   <script type="text/ng-template" id="dir.blog.html">
     <pl-blog-items  ng-if="blogs"></pl-blog-items>
     <pl-blog-item   ng-if="blog"></pl-blog-item>
-  </div>
+  </script>
 
   <script type="text/ng-template" id="dir.hexagon.html">
     <div class="pl-hexagon"></div>
@@ -208,7 +266,7 @@
   </script>
 
   <script type="text/ng-template" id="view.404.html">
-    <h1>404</h1>
+    <h1 id="path404">404</h1>
   </script>
 
   <script type="text/ng-template" id="dir.nav.html">

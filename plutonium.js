@@ -174,9 +174,14 @@ angular.module('plutonium').controller('PlCtrl', [
   '$scope', '$rootScope', '$state',
   function($scope, $rootScope, $state) {
     $scope.$state = $state;
+    
     $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams) {
-      console.log(toState, toParams);
       $scope.location = $state.href(toState.name, toParams);
+      if (!$scope.location) {
+        $scope.location = window.location.href.toString().replace(
+                            window.location.origin + '/', ''
+                          );
+      }
     });
   }
 ]);
@@ -223,6 +228,8 @@ angular.module('plutonium').config([
     $urlRouterProvider.otherwise(function($injector, $location) {
       $injector.invoke(['$state', function($state) {
         $state.go('root.404');
+        console.log($location);
+        $state.location = $location;
       }]);
     });
   }
