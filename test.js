@@ -1,4 +1,4 @@
-v = View({ target: document.getElementById('target') });
+
 
 // var colors = [
 //   '#a63754',
@@ -39,7 +39,7 @@ function randColor() { return colors[ Math.floor(Math.random() * colors.length) 
 // range({ x: -115, y: 1035, radius: 100, range: [ 3, 5 ] });
 
 
-function shapeArray(p) {
+function shapeArray(v, p) {
   var iY, iX;
   
   var numRows = Math.floor( v.bounds.height / ( p.radius * 2 + p.pad * 2 ) );
@@ -61,12 +61,12 @@ function shapeArray(p) {
         strokeOpacity: 0.0,
         drawBoundingCircle: false,
         rand: 40
-      })
+      });
     }
   }
 }
 
-shapeArray({ radius: 60, pad: -30, range: [3, 6]  })
+
 
 // v.blah({ radius: 100, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 70, color: '#D77FD9', animate: true })
 // v.blah({ radius: 200, size: 10, x: 300, y: 300, offset: 'RANDOM', rand: 70, color: '#8FD95B', animate: true })

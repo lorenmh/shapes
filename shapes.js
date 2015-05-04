@@ -1,7 +1,6 @@
 /* jshint node:true */
 function toRadians(angle) {
   'use strict';
-
   return Math.PI * (angle / 180);
 }
 
@@ -72,24 +71,24 @@ function Shape(params) {
   };
   OFFSET_RANDOM_STRING = 'RANDOM';
 
-  shape.offset = params.offset || 0 ;
-  shape.radius = params.radius || 0 ;
-  shape.rand = params.rand || 0 ;
-  shape.repel = params.repel || 0 ;
+  shape.offset =  params.offset || 0 ;
+  shape.radius =  params.radius || 0 ;
+  shape.rand =    params.rand || 0 ;
+  shape.repel =   params.repel || 0 ;
   shape.attract = params.attract || 0 ;
-  shape.x = params.x || 0 ;
-  shape.y = params.y || 0 ;
-  shape.size = params.size || 0 ;
-  shape.edges = params.edges || makeCyclicEdges(params.size) ;
-  shape.color = params.color || DEFAULT_COLOR; 
+  shape.x =       params.x || 0 ;
+  shape.y =       params.y || 0 ;
+  shape.size =    params.size || 0 ;
+  shape.edges =   params.edges || makeCyclicEdges(params.size) ;
+  shape.color =   params.color || DEFAULT_COLOR; 
   shape.animate = !!params.animate;
   shape.drawBoundingCircle = !!params.drawBoundingCircle;
-  shape.fillOpacity = params.fillOpacity !== undefined ? 
+  shape.fillOpacity =   params.fillOpacity !== undefined ? 
                         params.fillOpacity : DEFAULT_FILL_OPACITY ;
   shape.strokeOpacity = params.strokeOpacity !== undefined ? 
                         params.strokeOpacity: DEFAULT_STROKE_OPACITY ;
-  shape.animDur = params.animDurFn || DEFAULT_ANIM_DUR_FN ;
-  shape.rotation =  params.rotationFn || DEFAULT_ROTATION_FN ;
+  shape.animDur =       params.animDurFn || DEFAULT_ANIM_DUR_FN ;
+  shape.rotation =      params.rotationFn || DEFAULT_ROTATION_FN ;
   
   if (shape.offset === OFFSET_RANDOM_STRING) {
     shape.offset = Math.PI * 2 * Math.random();
@@ -212,8 +211,17 @@ function View(params) {
   d3View = d3Svg.append('g').attr('clip-path', 'url(#clip)')
   ;
   
-  d3View.append('rect').attr({ x: 0, y: 0, width: view.bounds.width, height: view.bounds.height })
-      .style({ fill: 'rgba(255,255,255,.6)'})
+  d3View.append('rect')
+      .attr({
+        x: 0,
+        y: 0,
+        width: view.bounds.width,
+        height: view.bounds.height
+      })
+      .style({
+        fill: 'rgba(255,255,255,.6)'
+      })
+  ;
   
   d3Clip = d3Svg.append('defs')
       .append('clipPath')
@@ -225,17 +233,17 @@ function View(params) {
     x: view.bounds.width / 2,
     y: view.bounds.height / 2,
     size: 6,
-    radius: (view.bounds.width / 2) * .9
-  })
-  console.log(clipShape)
+    radius: (view.bounds.width / 2) * 0.9
+  });
   
   clipShape.initialize();
 
   d3Clip.append('path')
-    .attr({
-      transform: 'translate(' + clipShape.x + ', ' + clipShape.y + ')',
-      d: clipShape.d()
-    })
+      .attr({
+        transform: 'translate(' + clipShape.x + ', ' + clipShape.y + ')',
+        d: clipShape.d()
+      })
+  ;
 
   view.drawShape = function $drawShape($params) {
     var shape, d3Shape, i;
@@ -263,21 +271,6 @@ function View(params) {
     }
 
     rotate();
-
-    // for (i = 0; i < shape.edges.length; i++) {
-    //   d3Shape.append('line')
-    //     .attr({
-    //       x1: shape.edges[i].v0.x,
-    //       y1: shape.edges[i].v0.y,
-    //       x2: shape.edges[i].v1.x,
-    //       y2: shape.edges[i].v1.y
-    //     })
-    //     .style({
-    //       stroke: 'black',
-    //       'stroke-width': 1
-    //     })
-    //   ;
-    // }
 
     // for (i = 0; i < shape.edges.length; i++) {
     if (shape.drawBoundingCircle) {
@@ -308,31 +301,6 @@ function View(params) {
         })
     ;
     //}
-  };
-
-  view.blah = function(params) {
-    // var primes = [3,5,7,11,13,17,19,23,29];
-    var primes = [3,6,9];
-    var s = [4, 6, 8];
-
-    function a(z) {
-    z.forEach(function(el, i) { 
-      params.size = el;
-      params.i = i;
-      view.drawShape(params);
-    });
-    }
-
-    a(primes);
-    //params.x += 300;
-    //a(s);
-    
-
-    // for (i = 0; i < 10; i++) {
-    //   params.size = i + 3;
-    //   params.i = i;
-    //   view.drawShape(params);
-    // }
   };
   
   return view;
