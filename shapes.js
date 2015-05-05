@@ -297,12 +297,16 @@ function View(params) {
         })
     ;
 
+    var firstRun = true;
     function rotate() {
       if (shape.animate) {
+        var animDur = firstRun ? Math.random() * 6000 + 500 : shape.animDur() ;
+        var rot = firstRun ? 90 - (Math.random() * 180) : shape.rotation() ;
+        if (firstRun) { firstRun = false; }
         d3Shape.transition()
-            .duration(shape.animDur())
+            .duration(animDur)
             .attr({
-              transform: translateStr + ' rotate(' + shape.rotation() + ')'
+              transform: translateStr + ' rotate(' + rot + ')'
             })
             .each('end', rotate)
         ;
