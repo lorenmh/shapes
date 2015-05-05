@@ -1,0 +1,334 @@
+<!DOCTYPE html/>
+<html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500' rel='stylesheet' type='text/css'>
+</head>
+
+<body ng-app="plutonium" ng-controller="PlCtrl">
+  <style>
+    * { box-sizing: border-box; }
+    
+    #pl-title a {
+      text-decoration: none;
+    }
+
+    #pl-title text {
+      font-size: 50px;
+      text-decoration: none;
+    }
+
+    #pl-title svg {
+      display: block;
+      position: relative;
+      margin: auto;
+      left: 50%;
+      margin-left: -230px;
+      font-weight: 100;
+    }
+
+    #pl-title {
+      overflow: hidden;
+    }
+
+    .pl-hexagon {
+      width: 600;
+      height: 600;
+      display: block;
+      margin: auto;
+      position: relative;
+      left: 50%;
+      margin-left: -300px;
+    }
+
+    .pl-hexagon svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -300px;
+      margin-top: -300px;
+    }
+
+    .pl-nav {
+      margin: auto;
+      text-align: center;
+    }
+  
+    #container {
+      max-width: 800px;
+      margin: auto;
+      padding: 10px;
+    }
+
+    #menu {
+      border-bottom: 1px solid rgb(26, 26, 36);
+    }
+
+    #menu.sel-blog {
+      border-bottom: 1px solid rgb(19, 19, 19);
+    }
+
+    #menu.sel-projects {
+      border-bottom: 1px solid rgb(19, 19, 19);
+    }
+
+    #menu {
+      /*margin-top: -40px;*/
+      font-size: 26px;
+      transition: border .4s ease;
+      margin-bottom: 2px;
+    }
+
+    #menu ul {
+      max-width: 600px;
+      display: block;
+      margin: 0 auto 0 auto;
+      padding: 0;
+      list-style: none;
+      text-align: center;
+    }
+
+    #menu li {
+      width: 50%;
+      display: inline-block;
+    }
+
+    #menu li a {
+      width: 200px;
+      font-weight: 100;
+      display: block;
+      text-align: center;
+      margin: auto auto -1px auto;
+      text-decoration: none;
+      padding: 10px 40px;
+      border: 1px solid rgb(26, 26, 36);
+      background-color: rgb(26, 26, 36);
+      transition: color .5s ease, border .4s ease, background-color .4s ease;
+    }
+
+    #menu li.blog > a {
+      color: #50A3A2;
+    }
+
+    #menu li.projects > a:hover, #menu.sel-projects li.projects > a {
+      color: #93FFD1;
+    }
+
+    #menu li.blog > a:hover, #menu.sel-blog li.blog > a {
+      color: #66CFCD;
+    }
+
+    #menu.sel-blog li.blog > a, #menu.sel-projects li.projects > a,
+    #menu li > a:hover {
+      border: 1px solid rgb(19, 19, 19);
+    }
+
+    #menu.sel-blog li.blog > a, #menu.sel-projects li.projects > a {
+      border-bottom: 1px solid rgb(26, 26, 36);
+    }
+
+    #menu.sel-blog li.projects > a, #menu.sel-projects li.blog > a {
+      border-bottom: 1px solid rgb(19, 19, 19);
+    }
+
+    #menu li.projects > a {
+      color: #53E3A6;
+    }
+
+    html, body {
+      background-color: rgb(26, 26, 36);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 100;
+      font-size: 18px;
+    }
+
+    .pl-blog-teaser {
+    
+    }
+
+    .pl-blog-teaser a {
+      text-decoration: none;
+    }
+
+    .pl-blog-teaser a:hover {
+      text-decoration: none;
+    }
+
+    .pl-blog-teaser .title {
+      font-weight: 100;
+      color: #F79E7F;
+      transition: color .4s ease;
+    }
+
+    .pl-blog-teaser a:hover .title {
+      text-decoration: none;
+      color: #FFAF93;
+    }
+
+    .location {
+      color: rgb(247, 158, 127);
+      /*border-bottom: solid 1px;*/
+      display: inline-block;
+    }
+
+    .pl-blog-item {
+      color: rgba(255,255,255,.9);
+    }
+
+    .pl-blog-item .title {
+      font-weight: 100;
+      color: rgb(247, 158, 127);
+    }
+
+    h1, h2, h3, h4, h5, strong {
+      font-weight: 400;
+      color: rgba(210,210,210,.9);
+      line-height: 98%;
+    }
+
+    a {
+      color: rgb(247, 158, 127);
+      text-decoration: none;
+      font-weight: 300;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    em {
+      font-weight: 300;
+    }
+
+    pre {
+      padding: 20px;
+      background-color: rgba(0,0,0,.2);
+      overflow: auto;
+    }
+
+    p > code {
+      padding: 0px 2px;
+      background-color: rgba(10,10,10,.15);
+    }
+
+    #path404 {
+      font-size: 80px;
+      text-align: center;
+      color: rgb(226, 240, 165);
+      font-weight: 100;
+    }
+  </style>
+
+  <ui-view></ui-view>
+
+  <script type="text/ng-template" id="view.root.html">
+    <div id="container">
+      <pl-title></pl-title>
+      <pl-nav></pl-nav>
+      <div class="location">{{ location }}</div>
+      <ui-view></ui-view>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="view.home.html">
+    <pl-hexagon></pl-hexagon>
+  </script>
+
+  <script type="text/ng-template" id="dir.title.html">
+    <div id="pl-title" title="plutonium.io" alt="plutonium.io">
+      <a ui-sref="root.home">
+        <svg width="460" height="60">
+          <defs>
+            <clipPath id="logo-text">
+              <text x="230"
+                    y="40"
+                    text-anchor="middle">
+                plutonium.io
+              </text>
+            </clipPath>
+          </defs>
+
+          <image  xlink:href="textbg.jpg"
+                  x="0"
+                  y="0"
+                  width="460"
+                  height="104"
+                  clip-path="url(#logo-text)" >
+          </image>
+        </svg>
+      </a>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="dir.blog-teaser.html">
+    <div class="pl-blog-teaser">
+      
+      <a ui-sref="root.blog({ id: blog.id })">
+        <h1 class="title">{{ blog.title }}</h1>
+      </a>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="dir.blog-items.html">
+    <div class="pl-blogs-items">
+      <pl-blog-teaser ng-repeat="blog in blogs"></pl-blog-teaser> 
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="dir.blog-item.html">
+    <div class="pl-blog-item">
+      <h1 class="title">{{ blog.title }}</h1>
+      <h4 class="date">{{ blog.date }}</h4>
+      <div class="text" ng-bind-html="markdown(blog.text)">
+      </div>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="dir.blog.html">
+    <pl-blog-items  ng-if="blogs"></pl-blog-items>
+    <pl-blog-item   ng-if="blog"></pl-blog-item>
+  </script>
+
+  <script type="text/ng-template" id="dir.hexagon.html">
+    <div class="pl-hexagon"></div>
+  </script>
+
+  <script type="text/ng-template" id="view.blog.html">
+    <pl-blog></pl-blog>
+  </script>
+
+  <script type="text/ng-template" id="view.projects.html">
+  </script>
+
+  <script type="text/ng-template" id="view.404.html">
+    <h1 id="path404">404</h1>
+  </script>
+
+  <script type="text/ng-template" id="dir.nav.html">
+    <div class="pl-nav">
+      <div id="menu" ng-class="{ 'sel-blog': $state.current.name.match('^root.blog'), 'sel-projects': $state.current.name.match('^root.projects')}">
+        <ul>
+          <li class="projects"><a ui-sref="root.projects({id: null})" title="/projects">/projects</a></li><!-- ilb
+       --><li class="blog"><a ui-sref="root.blog({id: null})" title="/blog">/blog</a></li>
+        </ul>
+      </div>
+    </div>
+  </script>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/4.2.1/markdown-it.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/0.5.0/showdown.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-resource.js"></script>
+  <script src="shapes.js"></script>
+  <script src="test.js"></script>
+  <script src="plutonium.js"></script>
+</body>
+
+</html>
