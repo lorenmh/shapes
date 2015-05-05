@@ -26,11 +26,12 @@
       margin: auto;
       left: 50%;
       margin-left: -230px;
+      font-weight: 100;
     }
 
-    /*#pl-title {
-      margin: 26px auto -40px auto;
-    }*/
+    #pl-title {
+      overflow: hidden;
+    }
 
     .pl-hexagon {
       width: 600;
@@ -62,21 +63,22 @@
     }
 
     #menu {
-      /*border-bottom: 1px solid rgb(226, 240, 165);*/
+      border-bottom: 1px solid rgb(26, 26, 36);
     }
 
     #menu.sel-blog {
-      /*border-bottom: 1px solid #66CFCD;*/
+      border-bottom: 1px solid rgb(19, 19, 19);
     }
 
     #menu.sel-projects {
-      /*border-bottom: 1px solid #93FFD1;*/
+      border-bottom: 1px solid rgb(19, 19, 19);
     }
 
     #menu {
       /*margin-top: -40px;*/
       font-size: 26px;
       transition: border .4s ease;
+      margin-bottom: 2px;
     }
 
     #menu ul {
@@ -95,13 +97,15 @@
 
     #menu li a {
       width: 200px;
+      font-weight: 100;
       display: block;
       text-align: center;
       margin: auto auto -1px auto;
       text-decoration: none;
-      padding: 20px 40px;
-      border-bottom: 1px solid transparent;
-      transition: color .5s ease, border .4s ease;
+      padding: 10px 40px;
+      border: 1px solid rgb(26, 26, 36);
+      background-color: rgb(26, 26, 36);
+      transition: color .5s ease, border .4s ease, background-color .4s ease;
     }
 
     #menu li.blog > a {
@@ -110,12 +114,23 @@
 
     #menu li.projects > a:hover, #menu.sel-projects li.projects > a {
       color: #93FFD1;
-      /*border-bottom: 1px solid rgba(255,255,255,.4);*/
     }
 
     #menu li.blog > a:hover, #menu.sel-blog li.blog > a {
       color: #66CFCD;
-      /*border-bottom: 1px solid rgba(255,255,255,.4);*/
+    }
+
+    #menu.sel-blog li.blog > a, #menu.sel-projects li.projects > a,
+    #menu li > a:hover {
+      border: 1px solid rgb(19, 19, 19);
+    }
+
+    #menu.sel-blog li.blog > a, #menu.sel-projects li.projects > a {
+      border-bottom: 1px solid rgb(26, 26, 36);
+    }
+
+    #menu.sel-blog li.projects > a, #menu.sel-projects li.blog > a {
+      border-bottom: 1px solid rgb(19, 19, 19);
     }
 
     #menu li.projects > a {
@@ -123,9 +138,10 @@
     }
 
     html, body {
-      background-color: rgb(30,30,40);
+      background-color: rgb(26, 26, 36);
       font-family: 'Roboto', sans-serif;
       font-weight: 100;
+      font-size: 18px;
     }
 
     .pl-blog-teaser {
@@ -136,14 +152,24 @@
       text-decoration: none;
     }
 
-    .pl-blog-teaser h2 {
-      font-weight: 300;
+    .pl-blog-teaser a:hover {
+      text-decoration: none;
+    }
+
+    .pl-blog-teaser .title {
+      font-weight: 100;
       color: #F79E7F;
+      transition: color .4s ease;
+    }
+
+    .pl-blog-teaser a:hover .title {
+      text-decoration: none;
+      color: #FFAF93;
     }
 
     .location {
       color: rgb(247, 158, 127);
-      border-bottom: solid 1px;
+      /*border-bottom: solid 1px;*/
       display: inline-block;
     }
 
@@ -152,18 +178,24 @@
     }
 
     .pl-blog-item .title {
-      font-weight: 300;
+      font-weight: 100;
       color: rgb(247, 158, 127);
     }
 
     h1, h2, h3, h4, h5, strong {
       font-weight: 400;
-      color: rgba(230,230,230,.9);
-      line-height: 100%;
+      color: rgba(210,210,210,.9);
+      line-height: 98%;
     }
 
     a {
       color: rgb(247, 158, 127);
+      text-decoration: none;
+      font-weight: 300;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     em {
@@ -174,6 +206,11 @@
       padding: 20px;
       background-color: rgba(0,0,0,.2);
       overflow: auto;
+    }
+
+    p > code {
+      padding: 0px 2px;
+      background-color: rgba(10,10,10,.15);
     }
 
     #path404 {
@@ -229,7 +266,7 @@
     <div class="pl-blog-teaser">
       
       <a ui-sref="root.blog({ id: blog.id })">
-        <h2 class="title">{{ blog.title }}</h2>
+        <h1 class="title">{{ blog.title }}</h1>
       </a>
     </div>
   </script>
@@ -242,7 +279,7 @@
 
   <script type="text/ng-template" id="dir.blog-item.html">
     <div class="pl-blog-item">
-      <h2 class="title">{{ blog.title }}</h2>
+      <h1 class="title">{{ blog.title }}</h1>
       <h4 class="date">{{ blog.date }}</h4>
       <div class="text" ng-bind-html="markdown(blog.text)">
       </div>

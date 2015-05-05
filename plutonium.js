@@ -13,7 +13,7 @@ var drawHexagon = (function $drawHexagon() {
   return function(el) {
     if (!drawn) {
       var v = View({ target: el });
-      shapeArray(v, { radius: 60, pad: -30, range: [3, 6]  });
+      shapeArray(v, { radius: 60, pad: -35, range: [3, 6]  });
       svg = el.children[0];
       drawn = true;
     } else {

@@ -209,17 +209,30 @@ function View(params) {
   ;
   
   d3View = d3Svg.append('g').attr('clip-path', 'url(#clip)')
+    .on('click', (function() {
+      var hidden = false;
+      return function() {
+        if (hidden) {
+          showFill();
+          hidden = false;
+        } else {
+          hideFill();
+          hidden = true;
+        }
+      };
+    })())
   ;
-  
+
   d3View.append('rect')
       .attr({
+        class: 'white-fill',
         x: 0,
         y: 0,
         width: view.bounds.width,
         height: view.bounds.height
       })
       .style({
-        fill: 'rgba(255,255,255,.6)'
+        fill: 'url(#radial-gradient)'//'rgba(255,255,255,.6)'
       })
   ;
   
@@ -228,6 +241,32 @@ function View(params) {
       .attr('id', 'clip')
   ;
 
+  var d3GradWrap = d3Svg.append('defs')
+      .append('radialGradient')
+      .attr({
+        id: 'radial-gradient',
+        cx: '50%',
+        cy: '50%',
+        r: '50%',
+        fy: '50%'
+      })
+  ;
+  d3GradWrap.append('stop')
+      .attr({
+        offset: '0%'
+      })
+      .style({
+        'stop-color': 'rgba(255,255,255,.1)'
+      })
+  ;
+  d3GradWrap.append('stop')
+      .attr({
+        offset: '100%'
+      })
+      .style({
+        'stop-color': 'rgba(0,0,0,0)'
+      })
+  ;
   
   var clipShape = Shape({
     x: view.bounds.width / 2,
@@ -289,9 +328,13 @@ function View(params) {
     }
 
     
-    d3Shape.append('path')
-        .attr({
-          d: shape.d()
+    var d3ShapePath = d3Shape.append('path')
+    ;
+    
+    d3ShapePath.attr({
+          d: shape.d(),
+          class: 'shape',
+          'pointer-events': 'all'
         })
         .style({
           fill: shape.color,
@@ -299,9 +342,68 @@ function View(params) {
           'fill-opacity': shape.fillOpacity,
           'stroke-opacity': shape.strokeOpacity
         })
+      .on('mouseover', function() {
+        if( shape.x > (0.2 * view.bounds.width) &&
+            shape.x < (0.8 * view.bounds.width) &&
+            shape.y > (0.2 * view.bounds.height) &&
+            shape.y < (0.8 * view.bounds.height)) {
+          d3ShapePath.transition().delay(0).duration(200).style({
+            'fill-opacity': 0,
+            'stroke-opacity': shape.fillOpacity
+          }).attr({
+            'pointer-events': 'none'
+          });
+        }
+      })
     ;
     //}
   };
   
   return view;
 } 
+
+var hideFill = function $hideFill() {
+  d3.select('.white-fill').transition()
+      .duration(200)
+      .delay(0)
+      .style({
+        'fill-opacity': 0
+      })
+  ;
+
+  d3.selectAll('path.shape')
+    .transition()
+      .duration(200)
+      .delay(0)
+      .style({
+        'fill-opacity': 0,
+        'stroke-opacity': 0.6
+      })
+      .attr({
+        'pointer-events': 'none'
+      });
+  ;
+};
+
+var showFill = function $showFill() {
+  d3.select('.white-fill').transition()
+      .duration(200)
+      .delay(0)
+      .style({
+        'fill-opacity': 1
+      })
+  ;
+
+  d3.selectAll('path.shape')
+    .transition()
+      .duration(200)
+      .delay(0)
+      .style({
+        'fill-opacity': 0.6,
+        'stroke-opacity': 0
+      })
+      .attr({
+        'pointer-events': 'all'
+      });
+  ;
+}
